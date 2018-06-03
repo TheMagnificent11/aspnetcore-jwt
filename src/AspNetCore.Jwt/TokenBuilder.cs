@@ -35,7 +35,9 @@ namespace AspNetCore.Jwt
             if (user == null) throw new ArgumentNullException(nameof(user));
 
 #pragma warning disable CA1305 // Specify IFormatProvider
-            var expires = new DateTimeOffset(DateTime.UtcNow.AddDays(1)).ToUnixTimeSeconds().ToString();
+            var expires = new DateTimeOffset(DateTime.UtcNow.AddMinutes(Settings.ExpiryMins))
+                .ToUnixTimeSeconds()
+                .ToString();
 #pragma warning restore CA1305 // Specify IFormatProvider
 
             var claims = new List<Claim>()
