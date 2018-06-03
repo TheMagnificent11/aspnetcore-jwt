@@ -5,7 +5,15 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.Jwt.Sample", "AspNetCore.Jwt.Sample\AspNetCore.Jwt.Sample.csproj", "{BE114F80-DFA6-476A-B640-B39F80371EFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore.Jwt", "..\src\AspNetCore.Jwt\AspNetCore.Jwt.csproj", "{DD5B5606-0AB5-4C13-9DCC-C73D2B48A697}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.Jwt", "..\src\AspNetCore.Jwt\AspNetCore.Jwt.csproj", "{DD5B5606-0AB5-4C13-9DCC-C73D2B48A697}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{590CDA22-62FF-42FB-84C8-25BCD8451F63}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+		..\.gitignore = ..\.gitignore
+		..\CodeAnalysis.ruleset = ..\CodeAnalysis.ruleset
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
