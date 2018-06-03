@@ -77,6 +77,13 @@ namespace AspNetCore.Jwt.Sample
                 .AddEntityFrameworkStores<IdentityDbContext<User>>()
                 .AddDefaultTokenProviders();
 
+            services.AddJwtBearerAuthentication(
+                Configuration["Authentication:TokenSigningKey"],
+                Configuration["Authentication:Issuer"],
+                Configuration["Authentication:Audience"],
+                60,
+                1440);
+
             var apiKeyScheme = new ApiKeyScheme()
             {
                 Description = "JWT Authorization Scheme",

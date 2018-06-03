@@ -1,8 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <UserSecretsId>1c02a8d6-092e-45e3-8332-2dd12da54836</UserSecretsId>
+    <Version>0.0.1</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Saji Weerasingham</Authors>
+    <Company>NA</Company>
+    <Description>ASP.Net Core NuGet package to assist with JWT authentication/authorization for Web API when using Entity Framework Core Identity</Description>
+    <PackageProjectUrl>https://github.com/TheMagnificent11/aspnetcore-jwt</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/TheMagnificent11/aspnetcore-jwt</RepositoryUrl>
+    <PackageTags>aspnetcore efcore identity jwt</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -20,24 +27,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="2.4.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.2.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\AspNetCore.Jwt\AspNetCore.Jwt.csproj" />
   </ItemGroup>
 
 </Project>
