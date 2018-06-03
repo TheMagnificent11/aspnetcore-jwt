@@ -39,6 +39,8 @@ namespace AspNetCore.Jwt
                 ExpiryMins = expiryMins
             });
 
+            services.AddTransient<TokenBuilder>();
+
             return services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = "JwtBearer";

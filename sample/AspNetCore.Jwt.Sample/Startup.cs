@@ -1,4 +1,6 @@
-﻿using AspNetCore.Jwt.Sample.Models.Data;
+﻿using System.Linq;
+using AspNetCore.Jwt.Sample.Constants;
+using AspNetCore.Jwt.Sample.Models.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -60,6 +62,8 @@ namespace AspNetCore.Jwt.Sample
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            SeedData(app, env);
         }
 
         /// <summary>
@@ -97,6 +101,31 @@ namespace AspNetCore.Jwt.Sample
                 i.SwaggerDoc("v1", new Info() { Title = ApiName, Version = "v1" });
                 i.AddSecurityDefinition("Bearer", apiKeyScheme);
             });
+        }
+
+        private static void SeedData(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                SeedGlobalRoles(env, serviceScope);
+            }
+        }
+
+        private static void SeedGlobalRoles(IHostingEnvironment env, IServiceScope serviceScope)
+        {
+            using (var context = serviceScope.ServiceProvider.GetService<IdentityDbContext<User>>())
+            {
+                if (env.IsDevelopment())
+                {
+                    context.Database.Migrate();
+                }
+
+                var admin = context.Roles.FirstOrDefault(i => i.Name == GlobalRoles.Administrator);
+                if (admin != null) return;
+
+                context.Roles.Add(new IdentityRole(GlobalRoles.Administrator));
+                context.SaveChanges();
+            }
         }
     }
 }

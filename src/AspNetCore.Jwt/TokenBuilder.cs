@@ -29,15 +29,17 @@ namespace AspNetCore.Jwt
         /// </summary>
         /// <param name="user">Authenitcated user</param>
         /// <param name="authClaims">Auhorization claims for the authenticated users (excluding standard JWT claims)</param>
+        /// <param name="expiration">When token expires</param>
         /// <returns>A JWT security token</returns>
-        public JwtSecurityToken GenerateToken(IdentityUser user, IEnumerable<Claim> authClaims)
+        public JwtSecurityToken GenerateToken(
+            IdentityUser user,
+            IEnumerable<Claim> authClaims,
+            out DateTimeOffset expiration)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
 #pragma warning disable CA1305 // Specify IFormatProvider
-            var expires = new DateTimeOffset(DateTime.UtcNow.AddMinutes(Settings.ExpiryMins))
-                .ToUnixTimeSeconds()
-                .ToString();
+            expiration = new DateTimeOffset(DateTime.UtcNow.AddMinutes(Settings.ExpiryMins));
 #pragma warning restore CA1305 // Specify IFormatProvider
 
             var claims = new List<Claim>()
@@ -47,7 +49,9 @@ namespace AspNetCore.Jwt
 #pragma warning disable CA1305 // Specify IFormatProvider
                 new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString()),
 #pragma warning restore CA1305 // Specify IFormatProvider
-                new Claim(JwtRegisteredClaimNames.Exp, expires),
+#pragma warning disable CA1305 // Specify IFormatProvider
+                new Claim(JwtRegisteredClaimNames.Exp, expiration.ToUnixTimeSeconds().ToString()),
+#pragma warning restore CA1305 // Specify IFormatProvider
                 new Claim(JwtRegisteredClaimNames.Aud, Settings.Audience),
                 new Claim(JwtRegisteredClaimNames.Iss, Settings.Issuer)
             };
