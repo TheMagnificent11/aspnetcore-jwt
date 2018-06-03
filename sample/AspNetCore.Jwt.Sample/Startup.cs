@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using AspNetCore.Jwt.Sample.Constants;
+using AspNetCore.Jwt.Sample.Data;
 using AspNetCore.Jwt.Sample.Models.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -74,11 +74,11 @@ namespace AspNetCore.Jwt.Sample
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddDbContextPool<IdentityDbContext<User>>(options =>
+            services.AddDbContextPool<DatabaseContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<IdentityDbContext<User>>()
+                .AddEntityFrameworkStores<DatabaseContext>()
                 .AddDefaultTokenProviders();
 
             services.AddJwtBearerAuthentication(
@@ -113,7 +113,7 @@ namespace AspNetCore.Jwt.Sample
 
         private static void SeedGlobalRoles(IHostingEnvironment env, IServiceScope serviceScope)
         {
-            using (var context = serviceScope.ServiceProvider.GetService<IdentityDbContext<User>>())
+            using (var context = serviceScope.ServiceProvider.GetService<DatabaseContext>())
             {
                 if (env.IsDevelopment())
                 {
