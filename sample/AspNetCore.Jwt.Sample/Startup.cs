@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using AspNetCore.Jwt.Sample.Constants;
 using AspNetCore.Jwt.Sample.Data;
+using AspNetCore.Jwt.Sample.Logic;
 using AspNetCore.Jwt.Sample.Models.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -87,6 +88,8 @@ namespace AspNetCore.Jwt.Sample
                 Configuration["Authentication:Audience"],
                 60,
                 1440);
+
+            services.AddTransient<UserManager>();
 
             var apiKeyScheme = new ApiKeyScheme()
             {

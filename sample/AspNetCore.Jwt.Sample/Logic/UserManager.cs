@@ -4,13 +4,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AspNetCore.Jwt;
 using AspNetCore.Jwt.Sample.Constants;
 using AspNetCore.Jwt.Sample.Models.Client;
 using AspNetCore.Jwt.Sample.Models.Data;
 using Identity = Microsoft.AspNetCore.Identity;
 
-namespace Logic
+namespace AspNetCore.Jwt.Sample.Logic
 {
     /// <summary>
     /// User Manager

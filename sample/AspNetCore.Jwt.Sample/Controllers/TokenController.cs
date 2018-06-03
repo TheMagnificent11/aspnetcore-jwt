@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AspNetCore.Jwt.Sample.Logic;
 using AspNetCore.Jwt.Sample.Models.Client;
-using Logic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
