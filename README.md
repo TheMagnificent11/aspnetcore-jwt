@@ -3,8 +3,8 @@ ASP.Net Core JWT to assist with JWT authentication/authorization for Web API whe
 
 ## Dependencies
 - ASP.Net Core 2.1
--- Microsoft.AspNetCore.Authentication.JwtBearer
--- System.IdentityModel.Tokens.Jwt
+  - Microsoft.AspNetCore.Authentication.JwtBearer
+  - System.IdentityModel.Tokens.Jwt
 
 ## Quickstart
 - Install NuGet package
