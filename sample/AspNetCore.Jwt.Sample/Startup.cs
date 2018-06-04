@@ -1,6 +1,9 @@
-﻿using AspNetCore.Jwt.Sample.Data;
+﻿using AspNetCore.Jwt.Sample.Constants;
+using AspNetCore.Jwt.Sample.Data;
 using AspNetCore.Jwt.Sample.Logic;
 using AspNetCore.Jwt.Sample.Models.Data;
+using AspNetCore.Jwt.Sample.Models.Data.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -87,6 +90,8 @@ namespace AspNetCore.Jwt.Sample
                 60,
                 1440);
 
+            ConfigureAuthorizationPolicies(services);
+
             services.AddTransient<UserManager>();
 
             var apiKeyScheme = new ApiKeyScheme()
@@ -102,6 +107,24 @@ namespace AspNetCore.Jwt.Sample
                 i.SwaggerDoc("v1", new Info() { Title = ApiName, Version = "v1" });
                 i.AddSecurityDefinition("Bearer", apiKeyScheme);
             });
+        }
+
+        private static void ConfigureAuthorizationPolicies(IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(ClaimPolicies.TenantMember, policy =>
+                {
+                    policy.Requirements.Add(new TenantRoleRequirement(TenantRoleType.Member));
+                });
+
+                options.AddPolicy(ClaimPolicies.TenantOwner, policy =>
+                {
+                    policy.Requirements.Add(new TenantRoleRequirement(TenantRoleType.Owner));
+                });
+            });
+
+            services.AddSingleton<IAuthorizationHandler, TenantRoleHandler>();
         }
 
         private static void SeedData(IApplicationBuilder app, IHostingEnvironment env)
