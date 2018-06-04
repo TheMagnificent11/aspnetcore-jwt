@@ -13,27 +13,15 @@ namespace AspNetCore.Jwt.Sample.Models.Data.Enums
         None = 0,
 
         /// <summary>
-        /// Content Consumer
+        /// Member
         /// </summary>
-        [Description("Content Consumer")]
-        ContentConsumer,
+        [Description("Member")]
+        Member,
 
         /// <summary>
-        /// Content Distributor
+        /// Owner
         /// </summary>
-        [Description("Content Distributor")]
-        ContentDistributor,
-
-        /// <summary>
-        /// Content Creator
-        /// </summary>
-        [Description("Content Creator")]
-        ContentCreator,
-
-        /// <summary>
-        /// Administrator
-        /// </summary>
-        [Description("Administrator")]
-        Administrator
+        [Description("Owner")]
+        Owner,
     }
 }

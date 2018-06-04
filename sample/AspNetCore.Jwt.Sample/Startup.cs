@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using AspNetCore.Jwt.Sample.Constants;
-using AspNetCore.Jwt.Sample.Data;
+﻿using AspNetCore.Jwt.Sample.Data;
 using AspNetCore.Jwt.Sample.Logic;
 using AspNetCore.Jwt.Sample.Models.Data;
 using Microsoft.AspNetCore.Builder;
@@ -110,11 +108,11 @@ namespace AspNetCore.Jwt.Sample
         {
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                SeedGlobalRoles(env, serviceScope);
+                SeedData(env, serviceScope);
             }
         }
 
-        private static void SeedGlobalRoles(IHostingEnvironment env, IServiceScope serviceScope)
+        private static void SeedData(IHostingEnvironment env, IServiceScope serviceScope)
         {
             using (var context = serviceScope.ServiceProvider.GetService<DatabaseContext>())
             {
@@ -123,11 +121,7 @@ namespace AspNetCore.Jwt.Sample
                     context.Database.Migrate();
                 }
 
-                var admin = context.Roles.FirstOrDefault(i => i.Name == GlobalRoles.Administrator);
-                if (admin != null) return;
-
-                context.Roles.Add(new IdentityRole(GlobalRoles.Administrator));
-                context.SaveChanges();
+                context.Seed();
             }
         }
     }
