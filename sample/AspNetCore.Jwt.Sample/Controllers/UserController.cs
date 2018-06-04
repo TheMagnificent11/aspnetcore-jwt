@@ -50,9 +50,7 @@ namespace Web.Controllers.Auth
                 Surname = request.Surname
             };
 
-            var result = await Manager
-                .Create(user, request.Password)
-                .ConfigureAwait(false);
+            var result = await Manager.Create(user, request.Password);
 
             if (!result.Succeeded)
             {

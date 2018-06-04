@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Saji Weerasingham</Authors>
     <Company>NA</Company>
-    <Description>ASP.Net Core NuGet package to assist with JWT authentication/authorization for Web API when using Entity Framework Core Identity</Description>
+    <Description>ASP.Net Core package to assist with JWT authentication/authorization for Web API when using Entity Framework Core Identity</Description>
     <PackageProjectUrl>https://github.com/TheMagnificent11/aspnetcore-jwt</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TheMagnificent11/aspnetcore-jwt</RepositoryUrl>
     <PackageTags>aspnetcore efcore identity jwt</PackageTags>
@@ -29,7 +29,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0">
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">

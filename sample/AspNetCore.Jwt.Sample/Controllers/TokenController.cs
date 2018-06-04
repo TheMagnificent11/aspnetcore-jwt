@@ -40,9 +40,7 @@ namespace Web.Controllers.Auth
             if (request == null) throw new ArgumentNullException(nameof(request));
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var token = await Manager
-                .SignIn(request.Email, request.Password)
-                .ConfigureAwait(false);
+            var token = await Manager.SignIn(request.Email, request.Password);
             if (token == null) return BadRequest();
 
             return Ok(token);

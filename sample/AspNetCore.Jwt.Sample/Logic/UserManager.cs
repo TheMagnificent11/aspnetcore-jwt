@@ -62,19 +62,13 @@ namespace AspNetCore.Jwt.Sample.Logic
         /// <returns>Authentication token if correction details are provided, otherwise null</returns>
         public async Task<AuthToken> SignIn(string email, string password)
         {
-            var user = await IdentityUserManager.
-                FindByEmailAsync(email)
-                .ConfigureAwait(false);
+            var user = await IdentityUserManager.FindByEmailAsync(email);
             if (user == null) return null;
 
-            var isValidPasswrod = await IdentityUserManager
-                .CheckPasswordAsync(user, password)
-                .ConfigureAwait(false);
+            var isValidPasswrod = await IdentityUserManager.CheckPasswordAsync(user, password);
             if (!isValidPasswrod) return null;
 
-            var globalRoles = await IdentityUserManager
-                .GetRolesAsync(user)
-                .ConfigureAwait(false);
+            var globalRoles = await IdentityUserManager.GetRolesAsync(user);
             var isAdmin = globalRoles.Any(i => i == GlobalRoles.Administrator);
 
             return GenerateToken(user, isAdmin);
