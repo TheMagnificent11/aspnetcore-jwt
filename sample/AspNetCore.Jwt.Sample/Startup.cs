@@ -3,6 +3,7 @@ using AspNetCore.Jwt.Sample.Data;
 using AspNetCore.Jwt.Sample.Logic;
 using AspNetCore.Jwt.Sample.Models.Data;
 using AspNetCore.Jwt.Sample.Models.Data.Enums;
+using EntityManagement.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -92,6 +93,8 @@ namespace AspNetCore.Jwt.Sample
 
             ConfigureAuthorizationPolicies(services);
 
+            services.AddSingleton<IDatabaseContext, DatabaseContext>();
+            services.AddTransient<TenantUserRoleRepository>();
             services.AddTransient<UserManager>();
 
             var apiKeyScheme = new ApiKeyScheme()

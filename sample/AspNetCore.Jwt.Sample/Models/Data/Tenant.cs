@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using EntityManagement.Models;
 
 namespace AspNetCore.Jwt.Sample.Models.Data
 {

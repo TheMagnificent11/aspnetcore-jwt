@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Saji Weerasingham</Authors>
     <Company>NA</Company>
@@ -29,7 +29,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.0">
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.1">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">

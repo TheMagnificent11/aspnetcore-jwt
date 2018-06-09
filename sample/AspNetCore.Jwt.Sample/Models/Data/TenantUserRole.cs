@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using EntityManagement.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace AspNetCore.Jwt.Sample.Models.Data
