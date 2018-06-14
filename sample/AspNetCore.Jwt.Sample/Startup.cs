@@ -110,6 +110,15 @@ namespace AspNetCore.Jwt.Sample
 
         private static void ConfigureAuthorizationPolicies(IServiceCollection services)
         {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(ClaimPolicies.OwnUser, policy =>
+                {
+                    policy.Requirements.Add(new OwnUserRequirement());
+                });
+            });
+
+            services.AddSingleton<IAuthorizationHandler, OwnUserHandler>();
         }
 
         private static void SeedData(IApplicationBuilder app, IHostingEnvironment env)
