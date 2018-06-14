@@ -45,6 +45,16 @@ namespace AspNetCore.Jwt.Sample.Logic
         }
 
         /// <summary>
+        /// Updates the user
+        /// </summary>
+        /// <param name="user">User to update</param>
+        /// <returns>Result</returns>
+        public Task<Identity.IdentityResult> Update(User user)
+        {
+            return IdentityUserManager.UpdateAsync(user);
+        }
+
+        /// <summary>
         /// Finds the user with the specified email
         /// </summary>
         /// <param name="email">Email username of user to retrieve</param>
