@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace AspNetCore.Jwt.Sample.Models.Data
@@ -22,10 +21,5 @@ namespace AspNetCore.Jwt.Sample.Models.Data
         [Required]
         [MaxLength(100)]
         public string Surname { get; set; }
-
-        /// <summary>
-        /// Gets or sets the tenant roles
-        /// </summary>
-        public IList<TenantUserRole> TenantRoles { get; set; }
     }
 }

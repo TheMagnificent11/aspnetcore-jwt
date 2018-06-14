@@ -2,8 +2,6 @@
 using AspNetCore.Jwt.Sample.Data;
 using AspNetCore.Jwt.Sample.Logic;
 using AspNetCore.Jwt.Sample.Models.Data;
-using AspNetCore.Jwt.Sample.Models.Data.Enums;
-using EntityManagement.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -93,8 +91,6 @@ namespace AspNetCore.Jwt.Sample
 
             ConfigureAuthorizationPolicies(services);
 
-            services.AddSingleton<IDatabaseContext, DatabaseContext>();
-            services.AddTransient<TenantUserRoleRepository>();
             services.AddTransient<UserManager>();
 
             var apiKeyScheme = new ApiKeyScheme()
@@ -114,20 +110,6 @@ namespace AspNetCore.Jwt.Sample
 
         private static void ConfigureAuthorizationPolicies(IServiceCollection services)
         {
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(ClaimPolicies.TenantMember, policy =>
-                {
-                    policy.Requirements.Add(new TenantRoleRequirement(TenantRoleType.Member));
-                });
-
-                options.AddPolicy(ClaimPolicies.TenantOwner, policy =>
-                {
-                    policy.Requirements.Add(new TenantRoleRequirement(TenantRoleType.Owner));
-                });
-            });
-
-            services.AddSingleton<IAuthorizationHandler, TenantRoleHandler>();
         }
 
         private static void SeedData(IApplicationBuilder app, IHostingEnvironment env)

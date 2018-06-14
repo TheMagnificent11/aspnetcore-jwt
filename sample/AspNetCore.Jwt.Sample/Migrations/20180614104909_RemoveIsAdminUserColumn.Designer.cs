@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AspNetCore.Jwt.Sample.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20180604095602_Tenants")]
-    partial class Tenants
+    [Migration("20180614104909_RemoveIsAdminUserColumn")]
+    partial class RemoveIsAdminUserColumn
     {
         /// <summary>
         /// Builds target model
@@ -23,60 +23,6 @@ namespace AspNetCore.Jwt.Sample.Migrations
                 .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("AspNetCore.Jwt.Sample.Models.Data.EnumTypes.TenantRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TenantRole");
-                });
-
-            modelBuilder.Entity("AspNetCore.Jwt.Sample.Models.Data.Tenant", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tenant");
-                });
-
-            modelBuilder.Entity("AspNetCore.Jwt.Sample.Models.Data.TenantUserRole", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("RoleTypeId");
-
-                    b.Property<long>("TenantId");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleTypeId");
-
-                    b.HasIndex("TenantId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("TenantUserRole");
-                });
 
             modelBuilder.Entity("AspNetCore.Jwt.Sample.Models.Data.User", b =>
                 {
@@ -245,23 +191,6 @@ namespace AspNetCore.Jwt.Sample.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("AspNetCore.Jwt.Sample.Models.Data.TenantUserRole", b =>
-                {
-                    b.HasOne("AspNetCore.Jwt.Sample.Models.Data.EnumTypes.TenantRole", "RoleType")
-                        .WithMany()
-                        .HasForeignKey("RoleTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AspNetCore.Jwt.Sample.Models.Data.Tenant", "Tenant")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AspNetCore.Jwt.Sample.Models.Data.User", "User")
-                        .WithMany("TenantRoles")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

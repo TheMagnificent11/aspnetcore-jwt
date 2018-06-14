@@ -5,7 +5,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AspNetCore.Jwt.Sample.Constants;
-using AspNetCore.Jwt.Sample.Data;
 using AspNetCore.Jwt.Sample.Models.Client;
 using AspNetCore.Jwt.Sample.Models.Data;
 using Identity = Microsoft.AspNetCore.Identity;
@@ -21,21 +20,16 @@ namespace AspNetCore.Jwt.Sample.Logic
         /// Initializes a new instance of the <see cref="UserManager"/> class
         /// </summary>
         /// <param name="userManager">Identity framework user manager</param>
-        /// <param name="tenantUserRoleRepository">Tenant user role repository</param>
         /// <param name="tokenBuilder">JWT token builder</param>
         public UserManager(
             Identity.UserManager<User> userManager,
-            TenantUserRoleRepository tenantUserRoleRepository,
             TokenBuilder tokenBuilder)
         {
             IdentityUserManager = userManager;
-            TenantUserRoleRepository = tenantUserRoleRepository;
             TokenBuilder = tokenBuilder;
         }
 
         private Identity.UserManager<User> IdentityUserManager { get; set; }
-
-        private TenantUserRoleRepository TenantUserRoleRepository { get; set; }
 
         private TokenBuilder TokenBuilder { get; set; }
 
@@ -77,10 +71,10 @@ namespace AspNetCore.Jwt.Sample.Logic
             var globalRoles = await IdentityUserManager.GetRolesAsync(user);
             var isAdmin = globalRoles.Any(i => i == GlobalRoles.Administrator);
 
-            return await GenerateToken(user, isAdmin);
+            return GenerateToken(user, isAdmin);
         }
 
-        private async Task<AuthToken> GenerateToken(User user, bool isAdmin)
+        private AuthToken GenerateToken(User user, bool isAdmin)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
@@ -92,15 +86,6 @@ namespace AspNetCore.Jwt.Sample.Logic
             if (isAdmin)
             {
                 claims.Add(new Claim(ClaimTypes.Role, GlobalRoles.Administrator));
-            }
-
-            var tenantRoles = await TenantUserRoleRepository.RetrieveByUserId(user.Id);
-
-            if (tenantRoles != null)
-            {
-                tenantRoles.ForEach(i => claims.Add(new Claim(
-                    ((int)i.RoleTypeId).ToString(),
-                    i.TenantId.ToString())));
             }
 
             var jwtToken = TokenBuilder.GenerateToken(user, claims, out DateTimeOffset expires);
