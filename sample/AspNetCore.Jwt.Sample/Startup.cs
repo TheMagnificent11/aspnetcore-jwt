@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using AspNetCore.Jwt.Sample.Constants;
+﻿using AspNetCore.Jwt.Sample.Constants;
 using AspNetCore.Jwt.Sample.Data;
 using AspNetCore.Jwt.Sample.Logic;
 using AspNetCore.Jwt.Sample.Models.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -89,6 +89,8 @@ namespace AspNetCore.Jwt.Sample
                 60,
                 1440);
 
+            ConfigureAuthorizationPolicies(services);
+
             services.AddTransient<UserManager>();
 
             var apiKeyScheme = new ApiKeyScheme()
@@ -106,15 +108,28 @@ namespace AspNetCore.Jwt.Sample
             });
         }
 
+        private static void ConfigureAuthorizationPolicies(IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(ClaimPolicies.OwnUser, policy =>
+                {
+                    policy.Requirements.Add(new OwnUserRequirement());
+                });
+            });
+
+            services.AddSingleton<IAuthorizationHandler, OwnUserHandler>();
+        }
+
         private static void SeedData(IApplicationBuilder app, IHostingEnvironment env)
         {
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                SeedGlobalRoles(env, serviceScope);
+                SeedData(env, serviceScope);
             }
         }
 
-        private static void SeedGlobalRoles(IHostingEnvironment env, IServiceScope serviceScope)
+        private static void SeedData(IHostingEnvironment env, IServiceScope serviceScope)
         {
             using (var context = serviceScope.ServiceProvider.GetService<DatabaseContext>())
             {
@@ -123,11 +138,7 @@ namespace AspNetCore.Jwt.Sample
                     context.Database.Migrate();
                 }
 
-                var admin = context.Roles.FirstOrDefault(i => i.Name == GlobalRoles.Administrator);
-                if (admin != null) return;
-
-                context.Roles.Add(new IdentityRole(GlobalRoles.Administrator));
-                context.SaveChanges();
+                context.Seed();
             }
         }
     }

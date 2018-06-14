@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AspNetCore.Jwt.Sample.Constants;
 using AspNetCore.Jwt.Sample.Logic;
 using AspNetCore.Jwt.Sample.Models.Client;
 using AspNetCore.Jwt.Sample.Models.Data;
@@ -50,9 +51,45 @@ namespace Web.Controllers.Auth
                 Surname = request.Surname
             };
 
-            var result = await Manager
-                .Create(user, request.Password)
-                .ConfigureAwait(false);
+            var result = await Manager.Create(user, request.Password);
+
+            if (!result.Succeeded)
+            {
+                AddIdentityErrorsToModelState(result);
+                return BadRequest(ModelState);
+            }
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Updates the specified user
+        /// </summary>
+        /// <param name="userId">ID of user to update</param>
+        /// <param name="request">Registration details</param>
+        /// <returns>
+        /// HTTP 200 if successful
+        /// HTTP 400 if the post body contains validation errors
+        /// </returns>
+        [HttpPut]
+        [Route("{userId}")]
+        [Authorize(Policy = ClaimPolicies.OwnUser)]
+        public async Task<ActionResult> Put(
+            [FromRoute]string userId,
+            [FromBody]UpdateUserRequest request)
+        {
+            if (request == null) throw new ArgumentNullException(nameof(request));
+
+            var user = new User()
+            {
+                Id = userId,
+                UserName = request.Email,
+                Email = request.Email,
+                GivenName = request.GivenName,
+                Surname = request.Surname
+            };
+
+            var result = await Manager.Update(user);
 
             if (!result.Succeeded)
             {
