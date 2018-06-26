@@ -11,7 +11,7 @@ ASP.Net Core JWT to assist with JWT authentication/authorization for Web API whe
 
 ## Quickstart
 - Install NuGet package
-- Initialize JWT in `Startup.ConfigureServices`.  For example:
+- Initialize JWT in `Startup.ConfigureServices`.  For example ([Sampe Startup](/sample/AspNetCore.Jwt.Sample/Startup.cs)):
 ```
 services.AddJwtBearerAuthentication(
     Configuration["Authentication:TokenSigningKey"],
@@ -24,7 +24,7 @@ services.AddJwtBearerAuthentication(
 -- The `GenerateToken` method creates a JWT signing token
 
 ## Authorization
-The [BaseAuthorizationHandler(/src/AspNetCore.Jwt/BaseAuthorizationHandler.cs) abstrat class assists with the authorization policies.
+The [BaseAuthorizationHandler](/src/AspNetCore.Jwt/BaseAuthorizationHandler.cs) abstrat class assists with the authorization policies.
 
 It collects the various segments of the API URL so that you can validate them against authenticated user's claims.
 
