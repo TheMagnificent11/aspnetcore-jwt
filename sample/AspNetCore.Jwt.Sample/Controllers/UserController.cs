@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AspNetCore.Jwt.Sample.Constants;
 using AspNetCore.Jwt.Sample.Logic;
@@ -93,6 +94,12 @@ namespace Web.Controllers.Auth
 
             if (!result.Succeeded)
             {
+                if (result.Errors != null &&
+                    result.Errors.Any(i => i.Code == UserManager.UserNotFound))
+                {
+                    return NotFound();
+                }
+
                 AddIdentityErrorsToModelState(result);
                 return BadRequest(ModelState);
             }
