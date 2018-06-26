@@ -17,6 +17,11 @@ namespace AspNetCore.Jwt.Sample.Logic
     public class UserManager
     {
         /// <summary>
+        /// Not Found
+        /// </summary>
+        public const string UserNotFound = "NotFound";
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UserManager"/> class
         /// </summary>
         /// <param name="userManager">Identity framework user manager</param>
@@ -49,9 +54,24 @@ namespace AspNetCore.Jwt.Sample.Logic
         /// </summary>
         /// <param name="user">User to update</param>
         /// <returns>Result</returns>
-        public Task<Identity.IdentityResult> Update(User user)
+        public async Task<Identity.IdentityResult> Update(User user)
         {
-            return IdentityUserManager.UpdateAsync(user);
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+            var existingUser = await IdentityUserManager.FindByIdAsync(user.Id);
+            if (user == null)
+            {
+                return Identity.IdentityResult.Failed(new Identity.IdentityError()
+                {
+                    Code = UserNotFound
+                });
+            }
+
+            existingUser.Email = user.Email;
+            existingUser.GivenName = user.GivenName;
+            existingUser.Surname = user.Surname;
+
+            return await IdentityUserManager.UpdateAsync(existingUser);
         }
 
         /// <summary>
