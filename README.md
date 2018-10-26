@@ -1,8 +1,8 @@
 # aspnetcore-jwt
 ASP.Net Core JWT to assist with JWT authentication/authorization for Web API when using Entity Framework Core Identity
 
-## Build Status (VSTS)
-![Build Status](https://saji.visualstudio.com/_apis/public/build/definitions/53d66044-d89e-46db-a4fa-1192a96255d7/17/badge)
+## Build Status
+[![Build status](https://saji.visualstudio.com/Open%20Source/_apis/build/status/aspnetcore-jwt-import)](https://saji.visualstudio.com/Open%20Source/_build/latest?definitionId=24)
 
 ## Dependencies
 - ASP.Net Core 2.1
